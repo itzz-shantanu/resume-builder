@@ -59,7 +59,7 @@ const EditResume = () => {
     },
     template: {
       theme: "",
-      colorPalette: "",
+      colorPalette: [],
     },
     contactInfo: {
       email: "",
@@ -532,7 +532,7 @@ const EditResume = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Error uploading images:", error);
-      toast.error("Failed to upload images");
+      toast.error("Failed to save resume. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -561,7 +561,8 @@ const EditResume = () => {
         updatePayload
       );
     } catch (err) {
-      console.error("Error capturing image:", err);
+      console.error("Error updating resume:", err);
+      throw err;
     } finally {
       setIsLoading(false);
     }
