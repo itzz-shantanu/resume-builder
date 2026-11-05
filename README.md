@@ -425,14 +425,19 @@ On Windows, use `mvnw.cmd` instead of `./mvnw`.
 
 ## Deployment
 
-The frontend is configured for Vercel-style SPA routing through `vercel.json`. The backend includes a Dockerfile suitable for container-based deployment. When deploying:
+The application uses **Vercel for frontend hosting** and **Render for backend hosting**. The frontend is configured for Vercel-style single-page application routing through `vercel.json`, while the Spring Boot backend can be deployed on Render using the included Dockerfile.
 
-- Set the frontend `VITE_API_BASE_URL` to the deployed backend URL.
-- Set `VITE_RAZORPAY_KEY_ID` to the appropriate Razorpay key ID.
-- Set all backend environment variables in the hosting provider's secret/environment configuration.
-- Set `CORS_ALLOWED_ORIGINS` to the exact deployed frontend origin.
-- Use a managed MongoDB deployment such as MongoDB Atlas.
-- Ensure the backend's `APP_BASE_URL` and email verification links use the correct deployed application/API URL.
+### Deployment configuration
+
+- **Frontend — Vercel:** Deploy the `resume-builder/` directory and configure `VITE_API_BASE_URL` to point to the deployed Render backend URL.
+- **Backend — Render:** Deploy the `resumebuilderapi/` directory using its Dockerfile. Configure the backend environment variables in the Render service settings.
+- **Database — MongoDB Atlas:** Set `MONGODB_URI` to your Atlas connection string.
+- **CORS:** Set `CORS_ALLOWED_ORIGINS` to the exact deployed Vercel frontend origin.
+- **Payments:** Set `VITE_RAZORPAY_KEY_ID` in Vercel and `RAZORPAY_KEY` / `RAZORPAY_SECRET` in Render.
+- **Email and image uploads:** Configure the Brevo SMTP and Cloudinary variables in Render.
+- **Application URL:** Set `APP_BASE_URL` to the appropriate deployed backend URL so generated links and email verification flows use the correct address.
+
+Keep all credentials in the hosting providers' environment-variable settings; never commit production secrets to the repository.
 
 ## Security Notes
 
